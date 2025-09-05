@@ -1,13 +1,26 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { SearchIcon, FilterIcon, XIcon } from 'lucide-react';
 import { BookCard } from '../components/BookCard';
+import useBookCall from '../customHooks/useBookCall';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateSearchBooks } from '../slice/searchedBooksSlice';
 export function SearchResults() {
   const [searchParams] = useSearchParams();
   const query = searchParams.get('q') || '';
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
   const [filterOpen, setFilterOpen] = useState(false);
+  const {books,setQuery}=useBookCall()
+  useEffect(()=>{
+   setQuery(query)
+  },[])
+  console.log('book='+books[0])
+  const dispach=useDispatch()
+  dispach(updateSearchBooks(books))
+  const d=useSelector((state)=>state)
+  console.log('data from store')
+  console.log(d)
   // Mock search results
   const searchResults = [{
     id: '1',
@@ -237,7 +250,10 @@ export function SearchResults() {
             </div>
             {/* Results Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {searchResults.map(book => <BookCard key={book.id} {...book} />)}
+              {books?.map((book,index) => {
+            
+                return <BookCard key={book.key} index={index} book={book}/>
+              })}
             </div>
             {/* Pagination */}
             <div className="mt-8 flex justify-center">

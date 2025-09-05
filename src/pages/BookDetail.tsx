@@ -3,29 +3,30 @@ import { useParams, Link } from 'react-router-dom';
 import { BookOpenIcon, DownloadIcon, StarIcon, ShareIcon, BookmarkIcon, ChevronLeftIcon } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { BookCard } from '../components/BookCard';
+import { useSelector } from 'react-redux';
 export function BookDetail() {
-  const {
-    id
-  } = useParams<{
-    id: string;
-  }>();
+  const {id} = useParams<{id: string}>();
   // Mock book data - in a real app, you would fetch this based on the ID
-  const book = {
-    id: id || '1',
-    title: 'The Great Gatsby',
-    author: 'F. Scott Fitzgerald',
-    coverImage: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80',
-    description: "The Great Gatsby is a 1925 novel by American writer F. Scott Fitzgerald. Set in the Jazz Age on Long Island, near New York City, the novel depicts first-person narrator Nick Carraway's interactions with mysterious millionaire Jay Gatsby and Gatsby's obsession to reunite with his former lover, Daisy Buchanan.",
-    rating: 4.7,
-    reviewCount: 2453,
-    pages: 180,
-    language: 'English',
-    publishDate: 'April 10, 1925',
-    publisher: "Charles Scribner's Sons",
-    fileSize: '2.4 MB',
-    category: 'Fiction',
-    tags: ['Classic', 'American Literature', '20th Century', 'Novel']
-  };
+  const bookdata=useSelector(state=>state)
+  console.log('this is detaild section')
+  console.log(bookdata)
+  const book=bookdata.searchedBooks[id]
+  // const book = {
+  //   id: id || '1',
+  //   title: 'The Great Gatsby',
+  //   author: 'F. Scott Fitzgerald',
+  //   coverImage: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80',
+  //   description: "The Great Gatsby is a 1925 novel by American writer F. Scott Fitzgerald. Set in the Jazz Age on Long Island, near New York City, the novel depicts first-person narrator Nick Carraway's interactions with mysterious millionaire Jay Gatsby and Gatsby's obsession to reunite with his former lover, Daisy Buchanan.",
+  //   rating: 4.7,
+  //   reviewCount: 2453,
+  //   pages: 180,
+  //   language: 'English',
+  //   publishDate: 'April 10, 1925',
+  //   publisher: "Charles Scribner's Sons",
+  //   fileSize: '2.4 MB',
+  //   category: 'Fiction',
+  //   tags: ['Classic', 'American Literature', '20th Century', 'Novel']
+  // };
   // Mock related books
   const relatedBooks = [{
     id: '2',
@@ -120,7 +121,7 @@ export function BookDetail() {
             }} transition={{
               duration: 0.3
             }} className="rounded-lg overflow-hidden shadow-lg">
-                <img src={book.coverImage} alt={`Cover of ${book.title}`} className="w-full object-cover" />
+                <img src={`https://covers.openlibrary.org/b/id/${book.cover_i}-L.jpg`} alt={`Cover of`} className="w-full object-cover" />
               </motion.div>
               <div className="mt-6 space-y-4">
                 <motion.button whileHover={{
@@ -188,7 +189,7 @@ export function BookDetail() {
               duration: 0.5,
               delay: 0.5
             }} className="text-xl text-gray-600 mb-4">
-                by {book.author}
+                by {book.author_name[0]}
               </motion.p>
               <motion.div initial={{
               opacity: 0
@@ -199,10 +200,10 @@ export function BookDetail() {
               delay: 0.6
             }} className="flex items-center mb-6">
                 <div className="flex items-center">
-                  {[...Array(5)].map((_, i) => <StarIcon key={i} size={18} className={i < Math.floor(book.rating) ? 'text-amber-400 fill-amber-400' : 'text-gray-300 fill-gray-300'} />)}
+                  {/* {[...Array(5)].map((_, i) => <StarIcon key={i} size={18} className={i < Math.floor(book.rating) ? 'text-amber-400 fill-amber-400' : 'text-gray-300 fill-gray-300'} />)} */}
                 </div>
                 <span className="ml-2 text-gray-700 font-medium">
-                  {book.rating}
+                  {book.title}
                 </span>
                 <span className="mx-2 text-gray-400">•</span>
                 <span className="text-gray-600">
@@ -261,8 +262,8 @@ export function BookDetail() {
                     </li>
                     <li className="flex justify-between">
                       <span className="text-gray-600">Category:</span>
-                      <Link to={`/categories/${book.category.toLowerCase()}`} className="font-medium text-indigo-600 hover:text-indigo-800">
-                        {book.category}
+                      <Link to={`/categories/`} className="font-medium text-indigo-600 hover:text-indigo-800">
+                        {/* {book.category} */}
                       </Link>
                     </li>
                   </ul>
@@ -282,7 +283,7 @@ export function BookDetail() {
                   Tags
                 </h3>
                 <div className="flex flex-wrap gap-2">
-                  {book.tags.map(tag => <motion.div key={tag} whileHover={{
+                  {/* {book.tags.map(tag => <motion.div key={tag} whileHover={{
                   scale: 1.1
                 }} whileTap={{
                   scale: 0.95
@@ -290,7 +291,7 @@ export function BookDetail() {
                       <Link to={`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`} className="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-sm px-3 py-1 rounded-full">
                         {tag}
                       </Link>
-                    </motion.div>)}
+                    </motion.div>)} */}
                 </div>
               </motion.div>
             </motion.div>
@@ -338,11 +339,11 @@ export function BookDetail() {
           <h2 className="text-2xl font-bold text-gray-800 mb-6">
             You May Also Like
           </h2>
-          <motion.div variants={container} initial="hidden" animate="show" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* <motion.div variants={container} initial="hidden" animate="show" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {relatedBooks.map((book, index) => <motion.div key={book.id} variants={item} custom={index}>
                 <BookCard {...book} />
               </motion.div>)}
-          </motion.div>
+          </motion.div> */}
         </motion.div>
       </div>
     </motion.div>;

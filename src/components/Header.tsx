@@ -1,4 +1,4 @@
-import React, { useState, Children, Component } from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { SearchIcon, MenuIcon, XIcon, BookOpenIcon } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -10,15 +10,18 @@ export function Header() {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
+      navigate(
+        `/search?q=${encodeURIComponent(searchQuery)}`,
+        
+      );
     }
   };
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
-  return <header className="bg-white shadow-md sticky top-0 z-50">
-      <div className="container mx-auto px-4 py-4">
-        <div className="flex items-center justify-between">
+  return <header className="bg-white shadow-md sticky top-0 z-50 ">
+      <div className="container mx-auto px-4 py-4 ">
+        <div className="flex items-center justify-between px-1 ">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
             <motion.div whileHover={{
@@ -40,7 +43,7 @@ export function Header() {
               ReadFlow
             </motion.span>
           </Link>
-          {/* Enhanced Search Bar - Centered and Prominent */}
+          {/*  Search  bar */}
           <motion.div initial={{
           opacity: 0,
           scale: 0.9
@@ -131,14 +134,12 @@ export function Header() {
           opacity: 0,
           height: 0
         }} transition={{
-          duration: 0.3
-        }} className="md:hidden mt-4 pb-4 overflow-hidden">
+          duration: 0
+        }} className="md:hidden mt-4 py-4 overflow-hidden px-1">
               <form onSubmit={handleSearch} className="relative mb-4">
                 <div className="relative">
-                  <input type="text" placeholder="Search for books, authors, or topics..." className="w-full py-3 pl-12 pr-10 rounded-full border border-indigo-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white shadow-md" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} />
-                  <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-indigo-500">
-                    <SearchIcon size={20} />
-                  </div>
+                  <input type="text" placeholder="Search for books, authors, or topics..." className="w-full py-3  px-12 rounded-full border border-indigo-200 focus:outline-none focus:ring focus:ring-indigo-500 focus:border-transparent bg-white shadow-md" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} />
+                 
                   <motion.button whileTap={{
                 scale: 0.9
               }} type="submit" className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-gradient-to-r from-indigo-600 to-purple-600 p-2 rounded-full text-white">

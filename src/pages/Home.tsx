@@ -1,9 +1,16 @@
-import React, { Children } from 'react';
+import React, { Children, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { BookIcon, BookOpenIcon, DownloadIcon, TagIcon } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { BookCard } from '../components/BookCard';
+import { useSelector } from 'react-redux';
+import useBookCall from '../customHooks/useBookCall';
 export function Home() {
+  const {books,setQuery}=useBookCall()
+  useEffect(()=>{
+    setQuery('popular')
+  })
+  
   // Mock data for featured books
   const featuredBooks = [{
     id: '1',
@@ -251,8 +258,8 @@ export function Home() {
           <motion.div variants={container} initial="hidden" whileInView="show" viewport={{
           once: true
         }} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {featuredBooks.map((book, index) => <motion.div key={book.id} variants={item} custom={index}>
-                <BookCard {...book} />
+            {books.map((book,index) => <motion.div key={`${index}`} >
+                <BookCard book={book} />
               </motion.div>)}
           </motion.div>
         </div>
@@ -356,7 +363,7 @@ export function Home() {
           once: true
         }} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {recentBooks.map((book, index) => <motion.div key={book.id} variants={item} custom={index}>
-                <BookCard {...book} />
+                {/* <BookCard {...book} /> */}
               </motion.div>)}
           </motion.div>
         </div>

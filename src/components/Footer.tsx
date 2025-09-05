@@ -1,4 +1,3 @@
-import React, { Children } from 'react';
 import { Link } from 'react-router-dom';
 import { BookOpenIcon, GithubIcon, TwitterIcon, InstagramIcon } from 'lucide-react';
 import { motion } from 'framer-motion';

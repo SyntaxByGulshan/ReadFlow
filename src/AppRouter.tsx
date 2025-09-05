@@ -1,4 +1,3 @@
-
 import {  Routes, Route, useLocation } from 'react-router-dom';
 import { Home } from './pages/Home';
 import { BookDetail } from './pages/BookDetail';
@@ -9,7 +8,6 @@ export default function AppRouter() {
   const location = useLocation();
   return (
     <>
-    
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<AppOutlet />}>
           <Route index element={<Home />} />
